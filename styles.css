@@ -72,6 +72,9 @@ body > * {
 .forecast {
     grid-row: 2 / 3;
     grid-column: 1 / 4;
+
+    display: flex;
+    justify-content: space-around;
 }
 
 .specs {

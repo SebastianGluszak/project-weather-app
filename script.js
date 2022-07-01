@@ -85,6 +85,11 @@ function filterForecastWeather(forecastData) {
     return forecastList;
 }
 
+// Cached dom
+const main = document.querySelector('.main');
+const forecast = document.querySelector('.forecast');
+const specs = document.querySelector('.specs');
+
 // Selected city storage
 let weather = {
     currentWeather: undefined,
@@ -116,7 +121,8 @@ iconMap.set('50n', './images/weather-icons/50n.png');
 // Functions that put it all together
 
 function render() {
-
+    renderCurrentWeather();
+    renderForecast();
 }
 
 async function updateWeather(city) {
@@ -126,6 +132,25 @@ async function updateWeather(city) {
 }
 
 // Render helper function i.e. dom manipulation
+
+function renderCurrentWeather() {
+
+}
+
+function renderForecast() {
+    let counter = 0;
+    for (const step of weather.forecastWeather) {
+        counter++;
+        // Only get 5 steps at 24 hour intervals i.e. the next 5 days
+        if (counter % 8 !== 0) {
+            continue;
+        }
+        const day = document.createElement('div');
+        day.textContent = Math.round(kelvinToFahrenheit(parseInt(step.max_temp))) + 'F';
+        console.log(step.time);
+        forecast.appendChild(day);
+    }
+}
 
 // Other functions
 
