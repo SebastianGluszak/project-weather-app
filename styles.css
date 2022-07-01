@@ -82,3 +82,13 @@ body > * {
     grid-column: 3 / 4;
 }
 
+.day {
+    border: 1px solid white;
+    flex: auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+

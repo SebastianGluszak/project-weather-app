@@ -1,7 +1,7 @@
 // Classes for weather objects
 
 class CurrentWeather {
-    constructor(location, temperature, feels_like, humidity, wind_speed, visibility, icon) {
+    constructor(location, temperature, feels_like, humidity, wind_speed, visibility, icon, description) {
         this.location = location;
         this.time = new Date();
         this.temperature = temperature;
@@ -10,6 +10,7 @@ class CurrentWeather {
         this.wind_speed = wind_speed;
         this.visibility = visibility;
         this.icon = icon;
+        this.description = description;
     }
 }
 
@@ -68,7 +69,8 @@ function filterCurrentWeather(weatherData) {
     const wind_speed = weatherData.wind.speed;
     const visibility = weatherData.visibility;
     const icon = weatherData.weather[0].icon;
-    const weather = new CurrentWeather(location, temperature, feels_like, humidity, wind_speed, visibility, icon);
+    const description = weatherData.weather.description;
+    const weather = new CurrentWeather(location, temperature, feels_like, humidity, wind_speed, visibility, icon, description);
     return weather;
 }
 
@@ -146,6 +148,7 @@ function renderForecast() {
             continue;
         }
         const day = document.createElement('div');
+        day.classList.add('day');
         day.textContent = Math.round(kelvinToFahrenheit(parseInt(step.max_temp))) + 'F';
         console.log(step.time);
         forecast.appendChild(day);
