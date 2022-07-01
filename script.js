@@ -14,7 +14,7 @@ class CurrentWeather {
 
 class ForecastWeather {
     constructor(time, min_temp, max_temp, icon) {
-        this.time = time;
+        this.time = new Date(time);
         this.min_temp = min_temp;
         this.max_temp = max_temp;
         this.icon = icon;
@@ -47,7 +47,8 @@ async function fetchForecastData(city) {
     const coordinates = await fetchCoordinates(city);
     const response = await fetch(forecastWeatherURL(coordinates[0], coordinates[1]), { mode: 'cors' });
     const forecastData = await response.json();
-    console.log(forecastData.list);
+    console.log(forecastData);
+    getForecastWeather(forecastData);
     return forecastData;
 }
 
@@ -66,16 +67,25 @@ function getCurrentWeather(weatherData) {
 }
 
 function getForecastWeather(forecastData) {
-    const forecastList = weatherData.list;
+    const forecastList = forecastData.list;
     for (const step of forecastList) {
-        
+        const time = (step.dt_txt).replace(' ', 'T');
+        const min_temp = step.main.temp_min;
+        const max_temp = step.main.temp_max;
+        const icon = step.weather[0].icon;
+        const forecast = new ForecastWeather(time, min_temp, max_temp, icon);
+        console.log(forecast);
     }
 }
 
 // Selected city storage
-
+let weather = {
+    currentWeather: undefined,
+    forecastWeather: [],
+}
 
 // Map for icon id to icon png
+
 const iconMap = new Map();
 iconMap.set('01d', './images/weather-icons/01d.png');
 iconMap.set('01n', './images/weather-icons/01n.png');
@@ -96,5 +106,7 @@ iconMap.set('13n', './images/weather-icons/13n.png');
 iconMap.set('50d', './images/weather-icons/50d.png');
 iconMap.set('50n', './images/weather-icons/50n.png');
 
-const date = new Date('2022-07-01T03:00:00');
-console.log(date);
+// This is the correct way to make a date object
+
+// const date = new Date('2022-07-01T03:00:00');
+// console.log(date);
