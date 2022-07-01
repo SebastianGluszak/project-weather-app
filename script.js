@@ -122,13 +122,25 @@ function render() {
 async function updateWeather(city) {
     weather.currentWeather = await fetchCurrentWeather(city);
     weather.forecastWeather = await fetchForecast(city);
-    console.log(weather);
+    render();
 }
 
 // Render helper function i.e. dom manipulation
 
 // Other functions
 
-function convertTemperature(temperature) {
-    // kelvin, celcius, fahreinheit
+function fahrenheitToCelcius(temperature) {
+    return (temperature - 32) * .5556;
+}
+
+function celciusToFahrenheight(temperature) {
+    return temperature * 1.8 + 32;
+}
+
+function kelvinToCelcius(temperature) {
+    return temperature - 273.15;
+}
+
+function kelvinToFahrenheit(temperature) {
+    return 1.8 * (temperature - 273.15) + 32;
 }
