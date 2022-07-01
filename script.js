@@ -1,10 +1,11 @@
 // Classes for weather objects
 
 class CurrentWeather {
-    constructor(location, time, temperature, humidity, wind_speed, visibility, icon) {
+    constructor(location, temperature, feels_like, humidity, wind_speed, visibility, icon) {
         this.location = location;
-        this.time = new Date(time);
+        this.time = new Date();
         this.temperature = temperature;
+        this.feels_like = feels_like;
         this.humidity = humidity;
         this.wind_speed = wind_speed;
         this.visibility = visibility;
@@ -35,21 +36,18 @@ function forecastWeatherURL(lat, lon) {
     return 'https://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + lon + '&appid=83080525097f77eaf7a6d4d574c3a146';
 }
 
-async function fetchWeatherData(city) {
+async function fetchCurrentWeather(city) {
     const coordinates = await fetchCoordinates(city);
     const response = await fetch(currentWeatherURL(coordinates[0], coordinates[1]), { mode: 'cors' });
-    const weatherData = await response.json();
-    console.log(weatherData);
-    return weatherData;
+    const data = await response.json();
+    return filterCurrentWeather(data);
 }
 
-async function fetchForecastData(city) {
+async function fetchForecast(city) {
     const coordinates = await fetchCoordinates(city);
     const response = await fetch(forecastWeatherURL(coordinates[0], coordinates[1]), { mode: 'cors' });
-    const forecastData = await response.json();
-    console.log(forecastData);
-    getForecastWeather(forecastData);
-    return forecastData;
+    const data = await response.json();
+    return filterForecastWeather(data);
 }
 
 async function fetchCoordinates(city) {
@@ -62,26 +60,35 @@ async function fetchCoordinates(city) {
 
 // Functions to extract specific data from json
 
-function getCurrentWeather(weatherData) {
-
+function filterCurrentWeather(weatherData) {
+    const location = weatherData.name;
+    const temperature = weatherData.main.temp;
+    const feels_like = weatherData.main.feels_like;
+    const humidity = weatherData.main.humidity;
+    const wind_speed = weatherData.wind.speed;
+    const visibility = weatherData.visibility;
+    const icon = weatherData.weather[0].icon;
+    const weather = new CurrentWeather(location, temperature, feels_like, humidity, wind_speed, visibility, icon);
+    return weather;
 }
 
-function getForecastWeather(forecastData) {
-    const forecastList = forecastData.list;
-    for (const step of forecastList) {
+function filterForecastWeather(forecastData) {
+    const forecastList = [];
+    for (const step of forecastData.list) {
         const time = (step.dt_txt).replace(' ', 'T');
         const min_temp = step.main.temp_min;
         const max_temp = step.main.temp_max;
         const icon = step.weather[0].icon;
         const forecast = new ForecastWeather(time, min_temp, max_temp, icon);
-        console.log(forecast);
+        forecastList.push(forecast);
     }
+    return forecastList;
 }
 
 // Selected city storage
 let weather = {
     currentWeather: undefined,
-    forecastWeather: [],
+    forecastWeather: undefined,
 }
 
 // Map for icon id to icon png
@@ -106,7 +113,22 @@ iconMap.set('13n', './images/weather-icons/13n.png');
 iconMap.set('50d', './images/weather-icons/50d.png');
 iconMap.set('50n', './images/weather-icons/50n.png');
 
-// This is the correct way to make a date object
+// Functions that put it all together
 
-// const date = new Date('2022-07-01T03:00:00');
-// console.log(date);
+function render() {
+
+}
+
+async function updateWeather(city) {
+    weather.currentWeather = await fetchCurrentWeather(city);
+    weather.forecastWeather = await fetchForecast(city);
+    console.log(weather);
+}
+
+// Render helper function i.e. dom manipulation
+
+// Other functions
+
+function convertTemperature(temperature) {
+    // kelvin, celcius, fahreinheit
+}
