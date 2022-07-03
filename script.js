@@ -137,6 +137,7 @@ daysMap.set(6, 'Saturday');
 // Functions that put it all together
 
 function render() {
+    resetDOM();
     renderCurrentWeather();
     renderForecast();
 }
@@ -148,6 +149,12 @@ async function updateWeather(city) {
 }
 
 // Render helper function i.e. dom manipulation
+
+function resetDOM() {
+    main.innerHTML = '';
+    forecast.innerHTML = '';
+    specs.innerHTML = '';
+}
 
 function renderCurrentWeather() {
     const container = document.createElement('div');
@@ -186,6 +193,15 @@ function renderCurrentWeather() {
     icon.classList.add('main-icon');
     icon.src = iconMap.get(weather.currentWeather.icon);
 
+    const search = document.createElement('input');
+    search.classList.add('search');
+    search.setAttribute('placeholder', 'Search Location...')
+
+    const submit = document.createElement('button');
+    submit.classList.add('submit');
+    submit.textContent = 'search';
+    submit.addEventListener('click', searchLocation);
+
     container.appendChild(description);
     container.appendChild(location);
     container.appendChild(date);
@@ -193,6 +209,8 @@ function renderCurrentWeather() {
     container.appendChild(temperature);
     container.appendChild(switcher);
     container.appendChild(icon);
+    container.appendChild(search);
+    container.appendChild(submit);
     main.appendChild(container);
 }
 
@@ -268,3 +286,11 @@ function switchUnits() {
     unit = !unit;
     switcher.textContent = (unit) ? 'Display °C' : 'Display °F';
 }
+
+function searchLocation() {
+    let input = document.querySelector('input');
+    updateWeather(input.value);
+}
+
+// START IT UP
+updateWeather('Chicago');
