@@ -120,6 +120,17 @@ iconMap.set('13n', './images/weather-icons/13n.png');
 iconMap.set('50d', './images/weather-icons/50d.png');
 iconMap.set('50n', './images/weather-icons/50n.png');
 
+// Map for days
+
+const daysMap = new Map();
+daysMap.set(0, 'Sunday');
+daysMap.set(1, 'Monday');
+daysMap.set(2, 'Tuesday');
+daysMap.set(3, 'Wednesday');
+daysMap.set(4, 'Thursday');
+daysMap.set(5, 'Friday');
+daysMap.set(6, 'Saturday');
+
 // Functions that put it all together
 
 function render() {
@@ -144,14 +155,37 @@ function renderForecast() {
     for (const step of weather.forecastWeather) {
         counter++;
         // Only get 5 steps at 24 hour intervals i.e. the next 5 days
+        // BUG: Need to get max and min temp among 8 steps
         if (counter % 8 !== 0) {
             continue;
         }
+        const container = document.createElement('div');
+        container.classList.add('forecast-container');
+
+        const subContainer = document.createElement('div');
+        container.classList.add('forecast-subcontainer');
+
         const day = document.createElement('div');
         day.classList.add('day');
-        day.textContent = Math.round(kelvinToFahrenheit(parseInt(step.max_temp))) + 'F';
-        console.log(step.time);
-        forecast.appendChild(day);
+        day.textContent = daysMap.get(step.time.getDay());
+
+        const max = document.createElement('div');
+        max.classList.add('max');
+        const min = document.createElement('div');
+        min.classList.add('min');
+        max.textContent = Math.round(kelvinToFahrenheit(parseInt(step.max_temp))) + ' °F';
+        min.textContent = Math.round(kelvinToFahrenheit(parseInt(step.min_temp))) + ' °F';
+
+        const icon = new Image();
+        icon.classList.add('forecast-icon');
+        icon.src = iconMap.get(step.icon);
+        
+        subContainer.appendChild(day);
+        subContainer.appendChild(max);
+        subContainer.appendChild(min);
+        subContainer.appendChild(icon);
+        container.appendChild(subContainer);
+        forecast.appendChild(container);
     }
 }
 

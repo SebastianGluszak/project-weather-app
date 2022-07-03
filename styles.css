@@ -48,6 +48,34 @@ table {
 }
 
 /* My CSS */
+@font-face {
+    font-family: 'montserratregular';
+    src: url('./fonts/montserrat-regular/montserrat-regular-webfont.woff2') format('woff2'),
+         url('./fonts/montserrat-regular/montserrat-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'montserratlight';
+    src: url('./fonts/montserrat-light/montserrat-light-webfont.woff2') format('woff2'),
+         url('./fonts/montserrat-light/montserrat-light-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'montserratbold';
+    src: url('./fonts/montserrat-bold/montserrat-semibold-webfont.woff2') format('woff2'),
+         url('./fonts/montserrat-bold/montserrat-semibold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html {
+    color: white;
+    font-family: montserratbold;
+}
 
 body {
     height: 100vh;
@@ -82,7 +110,7 @@ body > * {
     grid-column: 3 / 4;
 }
 
-.day {
+.forecast-container {
     border: 1px solid white;
     flex: auto;
 
@@ -92,3 +120,27 @@ body > * {
     align-items: center;
 }
 
+.forecast_subcontainer {
+    text-align: left;
+}
+
+.day {
+    margin-bottom: 15px;
+}
+
+.max {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+}
+
+.min {
+    font-size: 0.75rem;
+    margin-bottom: 0px;
+}
+
+.forecast-icon {
+    height: 4rem;
+    width: auto;
+    position: relative;
+    right: 1rem;
+}
