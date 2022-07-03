@@ -23,6 +23,9 @@ class ForecastWeather {
     }
 }
 
+// Current unit
+let unit = true;
+
 // Functions to fetch json weather data for given city
 
 function directGeocodingURL(city) {
@@ -69,7 +72,7 @@ function filterCurrentWeather(weatherData) {
     const wind_speed = weatherData.wind.speed;
     const visibility = weatherData.visibility;
     const icon = weatherData.weather[0].icon;
-    const description = weatherData.weather.description;
+    const description = weatherData.weather[0].description;
     const weather = new CurrentWeather(location, temperature, feels_like, humidity, wind_speed, visibility, icon, description);
     return weather;
 }
@@ -147,7 +150,50 @@ async function updateWeather(city) {
 // Render helper function i.e. dom manipulation
 
 function renderCurrentWeather() {
+    const container = document.createElement('div');
+    container.classList.add('main-container');
+    
+    const description = document.createElement('div');
+    description.classList.add('description');
+    description.textContent = weather.currentWeather.description
+    .toLowerCase()
+    .split(' ')
+    .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+    .join(' ');
 
+    const location = document.createElement('div');
+    location.classList.add('location');
+    location.textContent = weather.currentWeather.location;
+
+    const date = document.createElement('div');
+    date.classList.add('date');
+    date.textContent = weather.currentWeather.time.toDateString();
+
+    const time = document.createElement('div');
+    time.classList.add('time');
+    time.textContent = weather.currentWeather.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    const temperature = document.createElement('div');
+    temperature.classList.add('main-temp', 'temperature');
+    temperature.textContent = Math.round(kelvinToFahrenheit(parseInt(weather.currentWeather.temperature))) + ' °F';
+
+    const switcher = document.createElement('div');
+    switcher.classList.add('switcher');
+    switcher.textContent = (unit) ? 'Display °C' : 'Display °F';
+    switcher.addEventListener('click', switchUnits);
+
+    const icon = new Image();
+    icon.classList.add('main-icon');
+    icon.src = iconMap.get(weather.currentWeather.icon);
+
+    container.appendChild(description);
+    container.appendChild(location);
+    container.appendChild(date);
+    container.appendChild(time);
+    container.appendChild(temperature);
+    container.appendChild(switcher);
+    container.appendChild(icon);
+    main.appendChild(container);
 }
 
 function renderForecast() {
@@ -208,13 +254,17 @@ function kelvinToFahrenheit(temperature) {
 }
 
 function switchUnits() {
-    let temps = document.querySelectorAll('.temperature');
-    for (let temp of temps) {
+    const temps = document.querySelectorAll('.temperature');
+    const switcher = document.querySelector('.switcher');
+    for (const temp of temps) {
         let text = temp.textContent.split(' ');
-        if (text[1] === '°F') {
+        if (unit) {
             temp.textContent = Math.round(fahrenheitToCelcius(parseInt(text[0]))) + ' °C';
         } else {
             temp.textContent = Math.round(celciusToFahrenheight(parseInt(text[0]))) + ' °F';
+            switcher.textContent = (unit) ? 'Display °F' : 'Display °C';
         }
     }
+    unit = !unit;
+    switcher.textContent = (unit) ? 'Display °C' : 'Display °F';
 }

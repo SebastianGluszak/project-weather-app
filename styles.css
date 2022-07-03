@@ -95,6 +95,11 @@ body > * {
 .main {
     grid-row: 1 / 2;
     grid-column: 1 / 2;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 70px;
 }
 
 .forecast {
@@ -142,4 +147,45 @@ body > * {
     width: auto;
     position: relative;
     right: 1rem;
+}
+
+.main-container {
+    text-align: left;
+}
+
+.description {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.location {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.date {
+    font-size: 0.75rem;
+    margin-bottom: 3px;
+}
+
+.time {
+    font-size: 0.75rem;
+    margin-bottom: 20px;
+}
+
+.main-temp {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.switcher {
+    font-size: 0.75rem;
+    cursor: pointer;
+}
+
+.main-icon {
+    height: 8rem;
+    width: auto;
+    position: relative;
+    right: 1.5rem;
 }
