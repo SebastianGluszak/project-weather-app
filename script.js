@@ -170,9 +170,9 @@ function renderForecast() {
         day.textContent = daysMap.get(step.time.getDay());
 
         const max = document.createElement('div');
-        max.classList.add('max');
+        max.classList.add('max', 'temperature');
         const min = document.createElement('div');
-        min.classList.add('min');
+        min.classList.add('min', 'temperature');
         max.textContent = Math.round(kelvinToFahrenheit(parseInt(step.max_temp))) + ' °F';
         min.textContent = Math.round(kelvinToFahrenheit(parseInt(step.min_temp))) + ' °F';
 
@@ -205,4 +205,16 @@ function kelvinToCelcius(temperature) {
 
 function kelvinToFahrenheit(temperature) {
     return 1.8 * (temperature - 273.15) + 32;
+}
+
+function switchUnits() {
+    let temps = document.querySelectorAll('.temperature');
+    for (let temp of temps) {
+        let text = temp.textContent.split(' ');
+        if (text[1] === '°F') {
+            temp.textContent = Math.round(fahrenheitToCelcius(parseInt(text[0]))) + ' °C';
+        } else {
+            temp.textContent = Math.round(celciusToFahrenheight(parseInt(text[0]))) + ' °F';
+        }
+    }
 }

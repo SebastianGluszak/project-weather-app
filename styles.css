@@ -111,7 +111,6 @@ body > * {
 }
 
 .forecast-container {
-    border: 1px solid white;
     flex: auto;
 
     display: flex;
