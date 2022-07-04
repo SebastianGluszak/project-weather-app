@@ -224,6 +224,18 @@ function renderForecast() {
         if (counter % 8 !== 0) {
             continue;
         }
+        
+        let maximum = -100000;
+        let minimum = 100000;
+        for (let i = counter - 8; i < counter; i++) {
+            if (weather.forecastWeather[i].max_temp > maximum) {
+                maximum = weather.forecastWeather[i].max_temp;
+            }
+            if (weather.forecastWeather[i].min_temp < minimum) {
+                minimum = weather.forecastWeather[i].min_temp;
+            }
+        }
+
         const container = document.createElement('div');
         container.classList.add('forecast-container');
 
@@ -238,8 +250,8 @@ function renderForecast() {
         max.classList.add('max', 'temperature');
         const min = document.createElement('div');
         min.classList.add('min', 'temperature');
-        max.textContent = unit ? Math.round(kelvinToFahrenheit(parseInt(step.max_temp))) + ' °F' : Math.round(kelvinToCelcius(parseInt(step.max_temp))) + ' °C';
-        min.textContent = unit ? Math.round(kelvinToFahrenheit(parseInt(step.min_temp))) + ' °F' : Math.round(kelvinToCelcius(parseInt(step.min_temp))) + ' °C';
+        max.textContent = unit ? Math.round(kelvinToFahrenheit(parseInt(maximum))) + ' °F' : Math.round(kelvinToCelcius(parseInt(maximum))) + ' °C';
+        min.textContent = unit ? Math.round(kelvinToFahrenheit(parseInt(minimum))) + ' °F' : Math.round(kelvinToCelcius(parseInt(minimum))) + ' °C';
 
         const icon = new Image();
         icon.classList.add('forecast-icon');
