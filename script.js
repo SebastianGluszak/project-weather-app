@@ -140,6 +140,7 @@ function render() {
     resetDOM();
     renderCurrentWeather();
     renderForecast();
+    renderSpecs();
 }
 
 async function updateWeather(city) {
@@ -251,6 +252,73 @@ function renderForecast() {
         container.appendChild(subContainer);
         forecast.appendChild(container);
     }
+}
+
+function renderSpecs() {
+    const feelsLike = document.createElement('div');
+    feelsLike.classList.add('spec-container');
+    const feelsLikeIcon = new Image();
+    feelsLikeIcon.classList.add('spec-icon');
+    feelsLikeIcon.src = './images/basic-icons/feels-like.png';
+    const feelsLikeTitle = document.createElement('div');
+    feelsLikeTitle.classList.add('spec-title');
+    feelsLikeTitle.textContent = 'Feels Like';
+    const feelsLikeInfo = document.createElement('div');
+    feelsLikeInfo.classList.add('spec-info', 'temperature');
+    feelsLikeInfo.textContent = Math.round(kelvinToFahrenheit(parseInt(weather.currentWeather.feels_like))) + ' °F';
+    feelsLike.appendChild(feelsLikeIcon);
+    feelsLike.appendChild(feelsLikeTitle);
+    feelsLike.appendChild(feelsLikeInfo);
+
+    const humidity = document.createElement('div');
+    humidity.classList.add('spec-container');
+    const humidityIcon = new Image();
+    humidityIcon.classList.add('spec-icon');
+    humidityIcon.src = './images/basic-icons/raindrop.png';
+    const humidityTitle = document.createElement('div');
+    humidityTitle.classList.add('spec-title');
+    humidityTitle.textContent = 'Humidity';
+    const humidityInfo = document.createElement('div');
+    humidityInfo.classList.add('spec-info');
+    humidityInfo.textContent = weather.currentWeather.humidity + ' %';
+    humidity.appendChild(humidityIcon);
+    humidity.appendChild(humidityTitle);
+    humidity.appendChild(humidityInfo);
+
+    const visibility = document.createElement('div');
+    visibility.classList.add('spec-container');
+    const visibilityIcon = new Image();
+    visibilityIcon.classList.add('spec-icon');
+    visibilityIcon.src = './images/basic-icons/visibility.png';
+    const visibilityTitle = document.createElement('div');
+    visibilityTitle.classList.add('spec-title');
+    visibilityTitle.textContent = 'Visibility';
+    const visibilityInfo = document.createElement('div');
+    visibilityInfo.classList.add('spec-info');
+    visibilityInfo.textContent = weather.currentWeather.visibility + ' m';
+    visibility.appendChild(visibilityIcon);
+    visibility.appendChild(visibilityTitle);
+    visibility.appendChild(visibilityInfo);
+
+    const wind = document.createElement('div');
+    wind.classList.add('spec-container');
+    const windIcon = new Image();
+    windIcon.classList.add('spec-icon');
+    windIcon.src = './images/basic-icons/wind.png';
+    const windTitle = document.createElement('div');
+    windTitle.classList.add('spec-title');
+    windTitle.textContent = 'Wind Speed';
+    const windInfo = document.createElement('div');
+    windInfo.classList.add('spec-info');
+    windInfo.textContent = weather.currentWeather.wind_speed + ' m/s';
+    wind.appendChild(windIcon);
+    wind.appendChild(windTitle);
+    wind.appendChild(windInfo);
+
+    specs.appendChild(feelsLike);
+    specs.appendChild(humidity);
+    specs.appendChild(visibility);
+    specs.appendChild(wind);
 }
 
 // Other functions
