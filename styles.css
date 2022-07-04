@@ -99,7 +99,7 @@ body > * {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding-top: 70px;
+    padding-top: 100px;
 }
 
 .forecast {
@@ -118,7 +118,8 @@ body > * {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding-top: 70px;
+    padding-top: 100px;
+    padding-right: 50px;
 }
 
 .forecast-container {
@@ -128,6 +129,9 @@ body > * {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    position: relative;
+    bottom: 20px;
 }
 
 .forecast_subcontainer {
@@ -157,6 +161,7 @@ body > * {
 
 .main-container {
     text-align: left;
+    padding-left: 100px;
 }
 
 .description {

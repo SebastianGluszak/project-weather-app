@@ -183,7 +183,7 @@ function renderCurrentWeather() {
 
     const temperature = document.createElement('div');
     temperature.classList.add('main-temp', 'temperature');
-    temperature.textContent = Math.round(kelvinToFahrenheit(parseInt(weather.currentWeather.temperature))) + ' °F';
+    temperature.textContent = unit ? Math.round(kelvinToFahrenheit(parseInt(weather.currentWeather.temperature))) + ' °F' : Math.round(kelvinToCelcius(parseInt(weather.currentWeather.temperature))) + ' °C';
 
     const switcher = document.createElement('div');
     switcher.classList.add('switcher');
@@ -238,8 +238,8 @@ function renderForecast() {
         max.classList.add('max', 'temperature');
         const min = document.createElement('div');
         min.classList.add('min', 'temperature');
-        max.textContent = Math.round(kelvinToFahrenheit(parseInt(step.max_temp))) + ' °F';
-        min.textContent = Math.round(kelvinToFahrenheit(parseInt(step.min_temp))) + ' °F';
+        max.textContent = unit ? Math.round(kelvinToFahrenheit(parseInt(step.max_temp))) + ' °F' : Math.round(kelvinToCelcius(parseInt(step.max_temp))) + ' °C';
+        min.textContent = unit ? Math.round(kelvinToFahrenheit(parseInt(step.min_temp))) + ' °F' : Math.round(kelvinToCelcius(parseInt(step.min_temp))) + ' °C';
 
         const icon = new Image();
         icon.classList.add('forecast-icon');
@@ -265,7 +265,7 @@ function renderSpecs() {
     feelsLikeTitle.textContent = 'Feels Like';
     const feelsLikeInfo = document.createElement('div');
     feelsLikeInfo.classList.add('spec-info', 'temperature');
-    feelsLikeInfo.textContent = Math.round(kelvinToFahrenheit(parseInt(weather.currentWeather.feels_like))) + ' °F';
+    feelsLikeInfo.textContent = unit ? Math.round(kelvinToFahrenheit(parseInt(weather.currentWeather.feels_like))) + ' °F' : Math.round(kelvinToCelcius(parseInt(weather.currentWeather.feels_like))) + ' °C';
     feelsLike.appendChild(feelsLikeIcon);
     feelsLike.appendChild(feelsLikeTitle);
     feelsLike.appendChild(feelsLikeInfo);
